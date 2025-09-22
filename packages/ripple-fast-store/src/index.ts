@@ -1,1 +1,1 @@
-export * from "@/lib.ripple"
+export * from "@/store.ripple"
