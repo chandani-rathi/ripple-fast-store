@@ -1,10 +1,19 @@
-import { MyLib } from "ripple-fast-store"
+import { TrackedStore } from 'ripple-fast-store';
+import { User } from '@/components/user.ripple';
 
 export component App() {
+	const store = TrackedStore('App', 'App Store');
+
 	<div class='text-center'>
-		<h1 class="font-semibold text-4xl">{'Welcome to Ripple!'}</h1>
-		<div class="p-12">
-			<MyLib />
+		<h1 class='font-semibold text-4xl'>{'Welcome to Ripple!'}</h1>
+		<div class='p-12'>
+			{store.get()}
+			<br />
+			<button class='bg-blue-500/70 hover:bg-blue-500 px-4 py-2 rounded' onClick={() => store.set('App Store')}>{'Rest'}</button>
 		</div>
+		<User />
+		if(store.get() == "Updated Store"){
+			<div>{"Yes state changed"}</div>
+		}
 	</div>
 }

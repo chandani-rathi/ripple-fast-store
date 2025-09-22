@@ -1,4 +1,83 @@
+import { createContext, effect, track } from 'ripple';
 
-export component MyLib() {
-	<div>{"My Ripple Lib"}</div>
+const StoreContext = createContext(new Map());
+
+export function createTrackedStore(storeName: string, init) {
+	console.log('create store', storeName, init);
+	if (!storeName) {
+		throw new Error('Store name not found.');
+	}
+
+	const context = StoreContext.get();
+	let existingState = init;
+
+	if (context.has(storeName)) {
+		existingState = context.get(storeName);
+	}
+
+	const state = track(() => {
+		context.set(storeName, existingState);
+
+		return existingState;
+	});
+
+	effect(() => {
+		context.set(storeName, @state);
+	});
+
+	function set(value) {
+		@state = value;
+	}
+
+	function get() {
+		return @state;
+	}
+
+	return {
+		set,
+		get,
+		state,
+	};
+}
+
+export function TrackedStore(storeName: string, init) {
+	console.log('tracked store', storeName, init);
+	if (!storeName) {
+		throw new Error('Store name not found.');
+	}
+
+	const context = StoreContext.get();
+	let existingState = init;
+	let state;
+
+	if (context.has(storeName)) {
+		state = context.get(storeName);
+	}
+
+	if (!state) {
+		state = track(() => {
+			return existingState;
+		});
+		context.set(storeName, state);
+	}
+
+	effect(() => {
+		sessionStorage.setItem('storeName', @state);
+		context.set(storeName, @state);
+		StoreContext.set(context);
+	});
+
+	function set(value) {
+		@state = value;
+	}
+
+	function get() {
+		return @state;
+	}
+
+	return {
+		set,
+		get,
+		state,
+	};
 }
