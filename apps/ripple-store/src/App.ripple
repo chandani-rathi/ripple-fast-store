@@ -1,4 +1,4 @@
-import { MyLib } from "ripple-lib"
+import { MyLib } from "ripple-fast-store"
 
 export component App() {
 	<div class='text-center'>

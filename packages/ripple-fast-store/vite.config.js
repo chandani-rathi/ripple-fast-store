@@ -23,7 +23,7 @@ export default defineConfig({
 		minify: false,
 		lib: {
 			entry: 'src/index.ts',
-			fileName: (format) => `ripple-lib.${format}.js`,
+			fileName: (format) => `ripple-fast-store.${format}.js`,
 			formats: ['es'],
 		},
 		rollupOptions: {

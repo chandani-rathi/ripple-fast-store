@@ -3,14 +3,14 @@
 	"version": "0.0.1",
 	"description": "",
 	"type": "module",
-	"module": "dist/ripple-lib.es.js",
-	"main": "dist/ripple-lib.cjs.js",
+	"module": "dist/ripple-fast-store.es.js",
+	"main": "dist/ripple-fast-store.cjs.js",
 	"types": "dist/index.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"import": "./dist/ripple-lib.es.js",
-			"require": "./dist/ripple-lib.cjs.js"
+			"import": "./dist/ripple-fast-store.es.js",
+			"require": "./dist/ripple-fast-store.cjs.js"
 		}
 	},
 	"files": [
