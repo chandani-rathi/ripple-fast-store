@@ -30,6 +30,6 @@
 	},
 	"dependencies": {
 		"ripple": "^0.2.63",
-		"ripple-lib": "workspace:*"
+		"ripple-fast-store": "workspace:*"
 	}
 }
