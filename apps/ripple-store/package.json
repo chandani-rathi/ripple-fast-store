@@ -1,0 +1,35 @@
+{
+	"name": "ripple-app",
+	"version": "0.0.0",
+	"private": true,
+	"description": "",
+	"type": "module",
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"scripts": {
+		"start": "vite",
+		"dev": "vite",
+		"test": "vitest",
+		"build": "vite build",
+		"serve": "vite preview",
+		"format": "prettier --write .",
+		"format:check": "prettier --check ."
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@tailwindcss/vite": "^4.1.13",
+		"jsdom": "^27.0.0",
+		"prettier": "^3.6.2",
+		"prettier-plugin-ripple": "^0.2.63",
+		"tailwindcss": "^4.1.13",
+		"typescript": "^5.9.2",
+		"vite": "^7.1.7",
+		"vite-plugin-ripple": "^0.2.63",
+		"vitest": "^3.2.4"
+	},
+	"dependencies": {
+		"ripple": "^0.2.63",
+		"ripple-lib": "workspace:*"
+	}
+}

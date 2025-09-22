@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`app > render 1`] = `
+<div>
+  <div
+    class="text-center"
+  >
+    <h1
+      class="font-semibold text-4xl"
+    >
+      Welcome to Ripple!
+    </h1>
+    <div
+      class="my-4 text-2xl flex items-center justify-center gap-4"
+    >
+      <button
+        class="hover:bg-gray-300/50 p-4 text-4xl rounded text-mid"
+      >
+        -
+      </button>
+      <span
+        class="font-bold text-3xl w-16"
+      >
+        0
+      </span>
+      <button
+        class="hover:bg-gray-300/50 p-4 text-4xl rounded"
+      >
+        +
+      </button>
+    </div>
+    <div>
+      <p>
+        This is a basic Ripple application template.
+      </p>
+      <p>
+        Edit 
+        <code
+          class="bg-gray-200/50 rounded px-1.5 py-0.5 text-gray-700 font-mono"
+        >
+          src/App.ripple
+        </code>
+         to get started.
+      </p>
+    </div>
+  </div>
+  
+</div>
+`;

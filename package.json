@@ -1,0 +1,26 @@
+{
+	"name": "ripple-fast-store-workspace",
+	"version": "0.0.1",
+	"private": true,
+	"description": "",
+	"type": "module",
+	"scripts": {
+		"watch:lib": "pnpm --filter ripple-lib run watch",
+		"watch:app": "pnpm --filter ripple-app run dev",
+		"dev": "pnpm dlx npm-run-all2 --parallel watch:**",
+		"test:lib": "pnpm --filter ripple-lib run test",
+		"test:app": "pnpm --filter ripple-app run test",
+		"test": "npx npm-run-all2 --parallel test:**",
+		"build" : "pnpm --filter ripple-lib run build",
+		"patch:lib": "cd packages/ripple-lib && npm run patch",
+		"patch": "npx npm-run-all2 --parallel patch:**",
+		"publish:lib": "cd packages/ripple-lib && npm run publish",
+		"publish": "npx npm-run-all2 --parallel publish:**"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"jsdom": "^27.0.0",
+		"vite-plugin-ripple": "^0.2.63",
+		"vitest": "^3.2.4"
+	}
+}

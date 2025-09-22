@@ -1,0 +1,10 @@
+import { MyLib } from "ripple-lib"
+
+export component App() {
+	<div class='text-center'>
+		<h1 class="font-semibold text-4xl">{'Welcome to Ripple!'}</h1>
+		<div class="p-12">
+			<MyLib />
+		</div>
+	</div>
+}
