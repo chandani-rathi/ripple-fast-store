@@ -1,8 +1,8 @@
 import { createContext, effect, track } from 'ripple';
 import { createStore } from 'zustand/vanilla';
 
-export function createTrackedStore(initialState) {
-	const store = createStore(initialState);
+export function createTrackedStore(initializer) {
+	const store = createStore((set, get) => initializer(set, get));
 
 	return fn => tracedState(fn, store);
 }

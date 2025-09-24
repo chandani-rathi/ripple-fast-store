@@ -24,9 +24,9 @@ const createStoreImpl = (createState) => {
 };
 const createStore = ((createState) => createState ? createStoreImpl(createState) : createStoreImpl);
 
-function createTrackedStore(initialState) {
+function createTrackedStore(initializer) {
 	$.scope();
-	const store = createStore(initialState);
+	const store = createStore((set, get) => initializer(set, get));
 
 	return (fn) => tracedState(fn, store);
 }

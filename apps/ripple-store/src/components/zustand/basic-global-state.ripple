@@ -1,6 +1,11 @@
+
 import { createTrackedStore } from 'ripple-fast-store';
 
-const trackedCounterStore = createTrackedStore((set, get) => ({
+type CounterType = {
+  counter: number;
+  increment: () => void
+}
+const trackedCounterStore = createTrackedStore<CounterType>((set, get) => ({
 	count: 0,
   	increment: () => set({ count: get().count + 1 }),
 }));

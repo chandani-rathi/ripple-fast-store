@@ -1,80 +1,101 @@
-# Ripple Basic Template
+# ripple-fast-store
 
-A minimal Ripple application template with TypeScript and Vite.
+A high-performance, minimal state management library for [Ripple](https://ripple.run/) apps, inspired by Zustand and designed for fine-grained reactivity. This package provides two main APIs: `createTrackedStore` and `NamedTrackedStore`, enabling both simple and named/global state management with automatic tracking and efficient updates.
 
-## Getting Started
+## Features
 
-1. Install dependencies:
-
-    ```bash
-    npm install # or pnpm or yarn
-    ```
-
-2. Start the development server:
-
-    ```bash
-    npm run dev
-    ```
-
-3. Build for production:
-    ```bash
-    npm run build
-    ```
-
-## Running Tests
-
-This template uses [Vitest](https://vitest.dev/) for unit testing.
-
-### Run all tests
-
-```bash
-npm test
-# or
-pnpm test
-```
-
-Test files are located in the `tests/` directory and use the `.test.ripple` extension.
-
-
-### About Vitest
-
-Vitest is a fast unit test framework for Vite projects. It supports Ripple files and runs tests in a jsdom environment.
-
-#### VS Code Extension
-
-For a better testing experience, install the official Vitest extension for VS Code:
-
-```vscode-extensions
-vitest.explorer
-```
-
-For more details, see [Vitest documentation](https://vitest.dev/).
+- **Tracked state**: Only components that use a piece of state re-render when it changes.
+- **Zustand-inspired API**: Familiar, ergonomic store creation.
+- **Named stores**: Share state globally by name, with session persistence.
+- **TypeScript support**: Full typings for safe, productive development.
+- **Ripple-first**: Designed for the Ripple UI framework.
 
 ---
 
-## Code Formatting
+## Installation
 
-This template includes Prettier with the Ripple plugin for consistent code formatting.
+You can install `ripple-fast-store` in your Ripple project using your preferred package manager:
 
-### Available Commands
+```bash
+pnpm add ripple-fast-store
+# or
+npm install ripple-fast-store
+# or
+yarn add ripple-fast-store
+```
 
-- `npm run format` - Format all files
-- `npm run format:check` - Check if files are formatted correctly
+> **Note:** Requires Node.js v20+ and Ripple v0.2.63+.
 
-### Configuration
+---
 
-Prettier is configured in `.prettierrc` with the following settings:
+## Usage
 
-- Uses tabs for indentation
-- Single quotes for strings
-- 100 character line width
-- Includes the `prettier-plugin-ripple` for `.ripple` file formatting
+### 1. `createTrackedStore`: Local, Tracked State
 
-### VS Code Integration
+Create a store and select slices of state that automatically track dependencies.
 
-For the best development experience, install the [Prettier VS Code extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) and the [Ripple VS Code extension](https://marketplace.visualstudio.com/items?itemName=ripplejs.ripple-vscode-plugin).
+```typescript
+import { createTrackedStore } from "ripple-fast-store";
 
-## Learn More
+const useCounter = createTrackedStore((set, get) => ({
+	count: 0,
+	inc: () => set({ count: get().count + 1 }),
+	dec: () => set({ count: get().count - 1 }),
+}));
 
-- [Ripple Documentation](https://github.com/trueadm/ripple)
-- [Vite Documentation](https://vitejs.dev/)
+// In your Ripple component:
+<div>
+	<button on:click={() => useCounter(s => s.inc())}>+</button>
+	<span>{useCounter(s => s.count)}</span>
+	<button on:click={() => useCounter(s => s.dec())}>-</button>
+</div>
+```
+
+- The selector function (`s => s.count`) ensures only the relevant part of the state is tracked and re-renders when it changes.
+- Methods like `inc` and `dec` update the state.
+
+---
+
+### 2. `NamedTrackedStore`: Global, Named State
+
+Create or access a named, globally shared store. State persists in session storage and is accessible across components.
+
+```typescript
+import { NamedTrackedStore } from "ripple-fast-store";
+
+const counterStore = NamedTrackedStore("counter", 0);
+
+// In any component:
+<button on:click={() => counterStore.set(counterStore.get() + 1)}>+</button>
+<span>{counterStore.state}</span>
+<button on:click={() => counterStore.set(counterStore.get() - 1)}>-</button>
+```
+
+- The `state` property is tracked and reactive.
+- `set` and `get` allow direct manipulation and retrieval of the state.
+- The store is globally accessible by its name.
+
+---
+
+## Advanced
+
+- Both APIs leverage Ripple’s `track` and `effect` for fine-grained reactivity.
+- You can use these stores in any Ripple component, and combine them for complex state needs.
+
+---
+
+## Development & Testing
+
+- **Build:** `pnpm build` (or `npm run build`)
+- **Test:** `pnpm test` (or `npm test`) — uses [Vitest](https://vitest.dev/)
+- **Format:** `pnpm format` (or `npm run format`) — uses Prettier with Ripple plugin
+
+---
+
+## License
+
+MIT
+
+---
+
+Let me know if you want code samples for more advanced patterns or integration with other libraries!
