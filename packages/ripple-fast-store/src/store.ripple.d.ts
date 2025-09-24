@@ -1,7 +1,5 @@
 import { Tracked } from "ripple";
 
-export declare function createTrackedStore<V>(): {
-	set: (value: V) => void,
-	get: () => V,
-	state: Tracked<V>,
-}
+export declare function createTrackedStore<V>(
+    initialState: V
+): (slice: Function) => Tracked<V>

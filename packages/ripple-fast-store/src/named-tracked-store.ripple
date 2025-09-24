@@ -1,0 +1,45 @@
+import { createContext, effect, track } from 'ripple';
+
+const StoreContext = createContext(new Map());
+
+export function NamedTrackedStore(storeName: string, init) {
+	console.log('tracked store', storeName, init);
+	if (!storeName) {
+		throw new Error('Store name not found.');
+	}
+
+	const context = StoreContext.get();
+	let existingState = init;
+	let state;
+
+	if (context.has(storeName)) {
+		state = context.get(storeName);
+	}
+
+	if (!state) {
+		state = track(() => {
+			return existingState;
+		});
+		context.set(storeName, state);
+	}
+
+	effect(() => {
+		sessionStorage.setItem('storeName', @state);
+		context.set(storeName, @state);
+		StoreContext.set(context);
+	});
+
+	function set(value) {
+		@state = value;
+	}
+
+	function get() {
+		return @state;
+	}
+
+	return {
+		set,
+		get,
+		state,
+	};
+}

@@ -1,19 +1,27 @@
-import { TrackedStore } from 'ripple-fast-store';
-import { User } from '@/components/user.ripple';
+import { NamedTrackedStore, createTrackedStore } from 'ripple-fast-store';
+import { BasicGlobalState, CurrentCount } from "@/components/basic-global-state.ripple"
+import { Profile } from "@/components/multi-share-state.ripple"
+import { BasicStateUpdate } from "@/components/basic-state-update.ripple";
+import { ZustandBasicGlobalState } from "@/components/zustand/basic-global-state.ripple";
+
 
 export component App() {
-	const store = TrackedStore('App', 'App Store');
-
-	<div class='text-center'>
-		<h1 class='font-semibold text-4xl'>{'Welcome to Ripple!'}</h1>
-		<div class='p-12'>
-			{store.get()}
-			<br />
-			<button class='bg-blue-500/70 hover:bg-blue-500 px-4 py-2 rounded' onClick={() => store.set('App Store')}>{'Rest'}</button>
+	
+	<div class='text-center space-y-5'>
+		<h1 class='font-semibold text-4xl'>{'Ripple State management'}</h1>
+		<div class="border rounded m-2">
+			<BasicGlobalState />
+			<CurrentCount />
 		</div>
-		<User />
-		if(store.get() == "Updated Store"){
-			<div>{"Yes state changed"}</div>
-		}
+		<div class="border rounded m-2">
+			<Profile />
+		</div>
+		<div class="border rounded m-2">
+			<BasicStateUpdate />
+		</div>
+		<div class="border rounded m-2">
+			<ZustandBasicGlobalState />
+		</div>
+		
 	</div>
 }

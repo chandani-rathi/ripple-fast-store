@@ -1,83 +1,32 @@
 import { createContext, effect, track } from 'ripple';
+import { createStore } from 'zustand/vanilla';
 
-const StoreContext = createContext(new Map());
+export function createTrackedStore(initialState) {
+	const store = createStore(initialState);
 
-export function createTrackedStore(storeName: string, init) {
-	console.log('create store', storeName, init);
-	if (!storeName) {
-		throw new Error('Store name not found.');
-	}
-
-	const context = StoreContext.get();
-	let existingState = init;
-
-	if (context.has(storeName)) {
-		existingState = context.get(storeName);
-	}
-
-	const state = track(() => {
-		context.set(storeName, existingState);
-
-		return existingState;
-	});
-
-	effect(() => {
-		context.set(storeName, @state);
-	});
-
-	function set(value) {
-		@state = value;
-	}
-
-	function get() {
-		return @state;
-	}
-
-	return {
-		set,
-		get,
-		state,
-	};
+	return fn => tracedState(fn, store);
 }
 
-export function TrackedStore(storeName: string, init) {
-	console.log('tracked store', storeName, init);
-	if (!storeName) {
-		throw new Error('Store name not found.');
+function tracedState(fn, store) {
+	const currentState = store.getState();
+	const returnSlice = fn(currentState);
+
+	if (typeof returnSlice == 'function') {
+		return returnSlice;
 	}
 
-	const context = StoreContext.get();
-	let existingState = init;
-	let state;
-
-	if (context.has(storeName)) {
-		state = context.get(storeName);
-	}
-
-	if (!state) {
-		state = track(() => {
-			return existingState;
-		});
-		context.set(storeName, state);
-	}
-
-	effect(() => {
-		sessionStorage.setItem('storeName', @state);
-		context.set(storeName, @state);
-		StoreContext.set(context);
+	const trackedSlice = track(() => {
+		return returnSlice;
 	});
 
-	function set(value) {
-		@state = value;
-	}
+	effect(() => {
+		return store.subscribe(newState => {
+			console.log('State changed:', newState);
+			const newSlice = fn(newState);
+			console.log(newSlice);
+			@trackedSlice = newSlice;
+		});
+	});
 
-	function get() {
-		return @state;
-	}
-
-	return {
-		set,
-		get,
-		state,
-	};
+	return trackedSlice;
 }

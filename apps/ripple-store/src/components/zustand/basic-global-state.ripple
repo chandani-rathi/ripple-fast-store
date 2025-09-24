@@ -1,0 +1,20 @@
+import { createTrackedStore } from 'ripple-fast-store';
+
+const trackedCounterStore = createTrackedStore((set, get) => ({
+	count: 0,
+  	increment: () => set({ count: get().count + 1 }),
+}));
+
+export component ZustandBasicGlobalState(){
+    const count = trackedCounterStore(state => state.count);
+	const increment = trackedCounterStore(state => state.increment);
+    <button onClick={() => increment()} class="px-4 py-2 border rounded hover:bg-black hover:text-white">
+        {"Count " + @count}
+    </button>
+    <ZustandCurrentCount />
+}
+
+export component ZustandCurrentCount() {
+	const count = trackedCounterStore(state => state.count);
+    <div>{"Current Count is " + @count}</div>
+}

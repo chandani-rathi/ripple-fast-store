@@ -1,0 +1,21 @@
+import { NamedTrackedStore } from 'ripple-fast-store';
+
+
+export component NameDisplay(){
+    const user = NamedTrackedStore("User")
+    <p>{`Name: ${user.get().name}`}</p>
+}
+
+export component AgeDisplay(){
+    const user = NamedTrackedStore("User");
+    <p>{`Age: ${user.get().age}`}</p>
+}
+
+export component Profile(){
+    const user = NamedTrackedStore("User", { name: "Test User", age: 20})
+    <div>
+        <div class="font-semibold">{"User Detail"}</div>
+        <NameDisplay />
+        <AgeDisplay />
+    </div>
+}
